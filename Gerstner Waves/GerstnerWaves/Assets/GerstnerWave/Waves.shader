@@ -51,9 +51,16 @@ Shader "Custom/Waves"
             float3 p = vertexData.vertex.xyz;
 
             float k = 2 * UNITY_PI / _Expansion;
-			p.y = _Amplitude * sin(k * (p.x - _Move * _Time.y));
+			float f = k * (p.x - _Move * _Time.y);
+
+            float3 tangent = normalize(float3(1, k * _Amplitude * cos(f), 0));
+
+            p.y = _Amplitude * sin(f);
+
+            float3 normal = float3(-tangent.y, tangent.x,0);
 
 			vertexData.vertex.xyz = p;
+            vertexData.normal = normal;
         }
 
         void surf (Input IN, inout SurfaceOutputStandard o)
