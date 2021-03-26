@@ -51,13 +51,12 @@ Shader "Custom/Waves"
             float3 p = vertexData.vertex.xyz;
 
             float k = 2 * UNITY_PI / _Expansion;
-			float f = k * (p.x - _Move * _Time.y);
+            float f = k * (p.x - _Move * _Time.y);
+            
+			p.y = _Amplitude * sin(f);
+            float3 tangent = normalize(float3(1, _Amplitude * k * cos(f),0));
 
-            float3 tangent = normalize(float3(1, k * _Amplitude * cos(f), 0));
-
-            p.y = _Amplitude * sin(f);
-
-            float3 normal = float3(-tangent.y, tangent.x,0);
+            float3 normal = float3(-tangent.y, tangent.x, 0);
 
 			vertexData.vertex.xyz = p;
             vertexData.normal = normal;
